@@ -9,6 +9,7 @@ import camiseta2 from '../assets/camisetas/dois.png'
 import camiseta3 from '../assets/camisetas/3.png'
 
 import 'keen-slider/keen-slider.min.css'
+import { GetServerSideProps } from "next"
 
 export default function Home() {
   const [sliderRef] = useKeenSlider({
@@ -57,4 +58,12 @@ export default function Home() {
       </Product>
     </HomeContainer>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  return {
+    props: {
+      data: []
+    }
+  }
 }
