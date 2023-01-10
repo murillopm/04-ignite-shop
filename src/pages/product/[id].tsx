@@ -12,10 +12,15 @@ interface Productprops {
     description: string;
     imageUrl: string;
     price: string;
+    defaultPriceId: string;
   }
 }
 
 export default function Product({ product }: Productprops) {
+  function handleBuyProduct() {
+    console.log(product.defaultPriceId)
+  }
+  
   return (
     <ProductContainer>
       <ImageContainer>
@@ -27,7 +32,7 @@ export default function Product({ product }: Productprops) {
         <span>{product.price}</span>
         <p>{product.description}</p>
 
-        <button>
+        <button onClick={handleBuyProduct}>
           Comprar agora
         </button>
       </ProductDetails>
@@ -51,7 +56,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ para
     expand: ['default_price']
   })
   
-  const { unit_amount } = product.default_price as Stripe.Price
+  const { id: defaultPriceId, unit_amount } = product.default_price as Stripe.Price
   let price = null;
 
   if (unit_amount !== null) {
@@ -69,6 +74,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ para
         description: product.description,
         imageUrl: product.images[0],
         price,
+        defaultPriceId,
       }
     },
     revalidate: 60 * 60,
